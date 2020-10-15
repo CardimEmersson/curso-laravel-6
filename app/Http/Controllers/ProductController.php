@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateProductRequest;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -56,24 +57,33 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreUpdateProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateProductRequest $request)
     {
+
+        //Validação simples dos inputs
+        // $request->validate([
+        //    'name' => 'required|min:3|max:255',
+        //    'description' => 'min:3|max:10000',
+        //    'foto' => 'required|image'
+        // ]);
+        //Caso validado imprimi OK
+        // dd('OK');
 
         // dd($request->only(['name']));
         // dd($request->all());
-        if($request->file('foto')->isValid()){
+        // if($request->file('foto')->isValid()){
             // local onde será salvo o arquivo
             // dd($request->file('foto')->store('public'));
 
             //criação de um link simbolico para acesso aos uploads dos arquivos 
             //php artisan storage:link
 
-            $nameFile = $request->name . '.' . $request->foto->extension();
-            dd($request->file('foto')->storeAs('products', $nameFile));
-        }
+        //     $nameFile = $request->name . '.' . $request->foto->extension();
+        //     dd($request->file('foto')->storeAs('products', $nameFile));
+        // }
 
 
         dd('Cadastrando...');
