@@ -17,6 +17,12 @@ class ProductController extends Controller
     {
 
         $this->request = $request;
+        
+        //Chama o login para autenticação somente para o controller create e store
+        // $this->middleware('auth')->only(['create','store']);
+
+        //ou exceto
+        // $this->middleware('auth')->except('index');
     }
 
     /**
@@ -26,8 +32,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        
-        return "Listagem de produtos";
+        $teste = 123;
+
+        // return view('teste', [
+        //     'teste' => $teste
+        // ]);
+
+        // return view('teste', compact('teste'));
+        return view('admin.pages.products.index', compact('teste'));
+
     }
 
     /**
@@ -37,7 +50,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return "Criando um produto";
+        return view('admin.pages.products.create');
     }
 
     /**
@@ -48,6 +61,22 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd($request->only(['name']));
+        // dd($request->all());
+        if($request->file('foto')->isValid()){
+            // local onde será salvo o arquivo
+            // dd($request->file('foto')->store('public'));
+
+            //criação de um link simbolico para acesso aos uploads dos arquivos 
+            //php artisan storage:link
+
+            $nameFile = $request->name . '.' . $request->foto->extension();
+            dd($request->file('foto')->storeAs('products', $nameFile));
+        }
+
+
+        dd('Cadastrando...');
         return "Criando um produto";
     }
 
@@ -70,7 +99,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.pages.products.edit', compact('id'));
     }
 
     /**
@@ -82,6 +111,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd("Editando o produto {$id}");
         return "atualiza produto: {$id}";
     }
 

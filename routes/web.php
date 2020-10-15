@@ -26,12 +26,12 @@ Route::get('/categoria/{flag}', function ($flag){
     return "Produtos da categoria {$flag}";
 });
 
-// Permite escolher os metodos que serão utilizados nessa rota
+// match: Permite escolher os metodos que serão utilizados nessa rota
 Route::match(['get', 'post'],'/match', function (){
     return 'match';
 });
 
-// qualquer metodo http
+//any: qualquer metodo http
 Route::any('/any', function () {
     return 'any';
 });
@@ -121,7 +121,7 @@ Route::group([
 });
 
 
-//Rota quem chama o ProductController
+//Rota que chama o ProductController
 
 Route::resource('products', 'ProductController');
 
@@ -135,6 +135,10 @@ Route::resource('products', 'ProductController');
 // Route::post('/products/store', 'ProductController@store')->name('product.store');
 // Route::put('/products/{id}', 'ProductController@update')->name('product.update');
 // Route::delete('/products/{id}', 'ProductController@update')->name('product.update');
+
+//MIDDLEWARE
+
+// Route::resource('product', 'ProductController');
 
 
 
