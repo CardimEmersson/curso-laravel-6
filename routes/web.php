@@ -140,7 +140,10 @@ Route::resource('products', 'ProductController');
 
 // Route::resource('product', 'ProductController');
 
+//DEVMEDIA
 
+Route::get('/contato', 'ContatoController@lista');
+Route::get('/home', 'ContatoController@home');
 
 
 

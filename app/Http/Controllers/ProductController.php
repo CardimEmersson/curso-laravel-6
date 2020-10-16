@@ -9,17 +9,17 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
 
-    protected $request;
+    protected $request, $product;
 
     /**
      * Construct
      * 
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, Product $product)
     {
 
         $this->request = $request;
-        
+        $this->product = $product;
         //Chama o login para autenticação somente para o controller create e store
         // $this->middleware('auth')->only(['create','store']);
 
@@ -118,7 +118,7 @@ class ProductController extends Controller
         if (!$product = Product::find($id))
             redirect()->back();
 
-        return view('admin.pages.productsshow', ['product' => $product]);
+        return view('admin.pages.products.show', ['product' => $product]);
     }
 
     /**
@@ -139,10 +139,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateProductRequest $request, $id)
     {
-        dd("Editando o produto {$id}");
-        return "atualiza produto: {$id}";
+        $product = $this->product->where('id', $id)->first;
+        if(!$product) {
+            return redirect()->back();
+        }
+        $product->update($request->all());
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -153,6 +158,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        return "Deletar produto: {$id}";
+        $product = $this->product->where('id', $id)->first;
+        if(!$product) {
+            return redirect()->back();
+        }
+        $product->delete();
+
+        return redirect()->route('products.index');
     }
 }
