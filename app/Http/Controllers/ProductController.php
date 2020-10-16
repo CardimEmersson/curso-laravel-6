@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUpdateProductRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -33,14 +34,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $teste = 123;
+        // $teste = ['Teste1', 'Teste2', 'Teste3', 'Teste4', 'Teste5', 'Teste6'];
 
         // return view('teste', [
         //     'teste' => $teste
         // ]);
 
         // return view('teste', compact('teste'));
-        return view('admin.pages.products.index', compact('teste'));
+        // return view('admin.pages.products.index', ['teste' => $teste]);
+        
+        $product = Product::paginate();
+        
+        return view('admin.pages.product.index', ['product' => $product]);
 
     }
 
@@ -51,6 +56,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+
         return view('admin.pages.products.create');
     }
 
@@ -62,6 +68,15 @@ class ProductController extends Controller
      */
     public function store(StoreUpdateProductRequest $request)
     {
+        $data = $request->only(['name', 'description', 'price', 'foto']);
+
+        // $product = new Product;
+        // $product->name = $request->name;  
+        // $product->save();
+
+        Product::create($data);
+
+        return redirect()->route('products.index');
 
         //Validação simples dos inputs
         // $request->validate([
@@ -86,8 +101,8 @@ class ProductController extends Controller
         // }
 
 
-        dd('Cadastrando...');
-        return "Criando um produto";
+        // dd('Cadastrando...');
+        // return "Criando um produto";
     }
 
     /**
@@ -98,7 +113,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return "produto: {$id}";
+        // $product = Product::where('id', $id)->first();
+      
+        if (!$product = Product::find($id))
+            redirect()->back();
+
+        return view('admin.pages.productsshow', ['product' => $product]);
     }
 
     /**

@@ -6,27 +6,36 @@
 
     <h1>Cadastrar um novo produto</h1>    
 
-    {{-- Bloco de verificação de erros na validação dos formularios --}}
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    {{-- Include de alertas --}}
+    @include('admin.includes.alerts')    
 
-    <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data" class="form">
 
         @csrf
 
-
         {{-- old() retorna o valor antigo do input--}}
+        <div class="form-group">
+            <input class="form-control" type="text" name="name" placeholder="Nome:" value="{{ old('name')}}">
+            
+        </div>
+        
+        <div class="form-group">
+            <input class="form-control" type="text" name="description" placeholder="Descrição:" value="{{ old('description')}}">
+        </div>
 
-        <input type="text" name="name" placeholder="Nome:" value="{{ old('name')}}">
-        <input type="text" name="description" placeholder="Descrição:" value="{{ old('description')}}">
-        <input type="file" name="foto">
+        <div class="form-group">
+            <input class="form-control" type="text" name="price" placeholder="Preço:" value="{{ old('price')}}">
+            
+        </div>
+        
+        <div class="form-group">
+            <input class="form-control" type="file" name="foto">            
+        </div>
+        
+        <div class="form-group">
+            <button class="btn brn-success form-control" type="submit">Enviar</button>
+        </div>
 
-        <button type="submit">Enviar</button>
     </form>
 
 @endsection

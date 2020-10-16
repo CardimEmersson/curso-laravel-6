@@ -5,111 +5,36 @@
 @section('content')
     <h1>Exibindo os produtos</h1>
     <hr>
-    <a href="{{ route('products.create') }}">Cadastrar</a>
+    <a href="{{ route('products.create') }}" class="btn btn-primary">Cadastrar</a>
     <hr>
-
-    <hr>
-    {{-- Include e envio de variavéis dinamicas --}}
-    @include('admin.includes.alerts', ['content' => "Teste alerta"])
-
-    <hr>
-
-    {{-- Components --}}
-    @component('admin.components.card')
-
-        {{-- Slots --}}
-        @slot('title')
-            <h1>Titulo card</h1>
-        @endslot
     
-        Um card de exemplo
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{ $product->name  }}</td>
+                    <td>{{ $product->preco  }}</td>
+                    <td>{{ $product->description }}</td>
+                    <td>
+                        <a href="{{ route('products.show', $product->id) }}">Detalhes</a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+
+        {!! $products->link() !!}
+
+    </table>
+
+   
     
-    @endcomponent
-
-    
-    {{-- Usando para o stack --}}
-    @push('styles')
-        <style>
-            .last{
-                background-color: #ccc;
-            }
-        </style> 
-    @endpush
-
-    @push('scripts')
-        <script>
-            document.body.style.background = '#efefef'
-        </script>
-    @endpush
-
-
-    {{-- {{$teste}} --}}
-
-    {{-- diretivas --}}
-    @if ($teste === 123)
-        É igual
-    @elseif($teste === 124)
-        É 124
-    @else
-        É diferente
-    @endif
-
-    {{--  --}}
-    @unless ($teste === '123')
-        
-    @endunless
-
-    {{-- Se existe --}}
-    @isset($teste)
-        Existe
-    @else
-        Não existe
-    @endisset
-
-    {{-- Se está vazio --}}
-    @empty($teste)
-        Está vazio
-    @endempty
-
-    {{-- Autenticação --}}
-    {{-- @auth
-
-    @else
-        
-    @endauth --}}
-
-    {{-- Se não estiver autenticado --}}
-    {{-- @guest
-        
-    @endguest --}}
-
-    {{--  --}}
-    {{-- @switch($type)
-        @case(1)
-            
-            @break
-        @case(2)
-                        
-            @break
-        @default
-            
-    @endswitch --}}
-
-    {{-- Estruturas de repetição --}}
-    {{-- @foreach ($collection as $item) --}}
-        
-        {{-- Se for o ultimo elemento --}}
-        {{-- @if ($loop->last)
-            ...
-        @endif
-
-    @endforeach --}}
-
-    {{-- verifica se existe --}}
-    {{-- @forelse ($collection as $item)
-        
-    @empty
-        
-    @endforelse --}}
 
 @endsection

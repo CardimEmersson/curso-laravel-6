@@ -13,9 +13,17 @@
         {{-- Enviando pelo metodo put --}}
         @method('PUT')
 
-        <input type="text" name="name" placeholder="Nome:">
-        <input type="text" name="description" placeholder="Descrição:">
-        <button type="submit">Enviar</button>
+        <div class="form-group">
+            <input class="form-control" type="text" name="name" placeholder="Nome:">
+            
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="description" placeholder="Descrição:">
+
+        </div>
+        <div class="form-group">
+            <button class="form-control" class="btn btn-primary" type="submit">Enviar</button>
+        </div>
     </form>
 
 @endsection
